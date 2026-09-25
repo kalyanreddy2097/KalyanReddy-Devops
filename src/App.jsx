@@ -4,7 +4,7 @@ import { PROFILE } from './config'
 const asset = (f) => `${import.meta.env.BASE_URL}${f}`
 
 const NUMBERS = [
-  ['2.5+', 'years in DevOps and SRE'],
+  ['3+', 'years in DevOps and SRE'],
   ['20%', 'AWS cost reduction'],
   ['99.9%', 'uptime across production'],
   ['300+', 'production servers supported']
@@ -45,6 +45,7 @@ const JOBS = [
     role: 'DevOps Engineer',
     company: 'Cloud2Scale Solutions',
     dates: 'Nov 2024 – Present',
+    location: 'Koramangala, Bangalore',
     points: [
       'CI/CD with Jenkins, Bitbucket and GitHub, plus ArgoCD GitOps for production and dev EKS clusters',
       'Multi-account AWS with Terraform, cross-account IAM and least-privilege RBAC',
@@ -55,6 +56,7 @@ const JOBS = [
     role: 'System Analyst (DevOps & SRE)',
     company: 'Canopus GBS, for Kyndryl (ABFRL)',
     dates: 'Jun 2024 – Oct 2024',
+    location: 'HAL Road, Marathahalli, Bangalore',
     points: [
       '24/7 support for 300+ servers across AIX, SUSE, Red Hat and Ubuntu with zero critical SLA breaches',
       'AIX clusters: LPARs, PowerHA (HACMP), LVM and mksysb backups for HA and DR',
@@ -65,6 +67,7 @@ const JOBS = [
     role: 'SysOps & DevOps Engineer',
     company: 'Trellissoft Engineering Services',
     dates: 'Sep 2023 – May 2024',
+    location: 'MG Road, Bangalore',
     points: [
       'Docker and Kubernetes deployments across dev, test and production',
       'Grafana and CloudWatch dashboards, with Prometheus and Zabbix monitoring',
@@ -119,7 +122,7 @@ export default function App() {
           <ol className="timeline">
             {JOBS.map((j) => (
               <li key={j.company}>
-                <div className="when">{j.dates}</div>
+                <div className="when">{j.dates}<span className="where">{j.location}</span></div>
                 <div>
                   <h3>{j.role}</h3>
                   <p className="company">{j.company}</p>
@@ -163,7 +166,7 @@ export default function App() {
         </section>
       </main>
       <footer className="footer">
-        <p>{PROFILE.name}. Built with React and Vite, deployed by GitHub Actions.</p>
+        <p>© 2026 {PROFILE.name}</p>
       </footer>
     </>
   )

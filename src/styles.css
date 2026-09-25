@@ -249,3 +249,44 @@ h3 { margin: 0 0 10px; font-size: 1.1rem; font-weight: 600; }
 
 .numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 32px; }
 .numbers dt { font-size: clamp(2.4rem, 5vw, 3.6rem); }
+
+/* ── Real character frames ──────────────────────── */
+.stage.has-frames { aspect-ratio: 1100 / 834; width: min(54vw, 820px); }
+.hero:has(.has-frames) {
+  background: radial-gradient(ellipse 46% 56% at 50% 56%, #fbfbfb 0%, #fbfbfb 24%, var(--mist) 44%, var(--slate) 68%, var(--ink-2) 92%);
+}
+.stage.has-frames .frames {
+  width: 100%;
+  aspect-ratio: 1100 / 834;
+  filter: none;
+  /* fades the white video background and desk edges into the page glow */
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 58%, transparent 100%);
+}
+.stage.has-frames .glow { inset: 0; }
+@media (max-width: 1024px) { .stage.has-frames { width: min(60vw, 700px); } }
+@media (max-width: 767px) { .stage.has-frames { width: 100%; max-width: 560px; } }
+
+@media (max-width: 767px) {
+  .hero:has(.has-frames) {
+    background: radial-gradient(ellipse 90% 30% at 50% 60%, #fbfbfb 0%, #fbfbfb 45%, var(--mist) 68%, var(--slate) 86%, var(--ink-2) 100%);
+  }
+  .stage.has-frames { width: 128vw; max-width: 640px; margin-top: 12px; }
+  .nav-links a:not(:last-child) { display: none; }
+}
+@media (max-width: 767px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .stage.has-frames { justify-self: center; margin-inline: calc((100% - min(128vw, 640px)) / 2); }
+}
+
+.scroll-cue { color: var(--text); opacity: 0.85; }
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .stage.has-frames { width: 84vw; margin-top: 80px; }
+  .intro { top: 110px; transform: none; max-width: 60vw; }
+  .hero:has(.has-frames) {
+    background: radial-gradient(ellipse 70% 34% at 50% 56%, #fbfbfb 0%, #fbfbfb 40%, var(--mist) 64%, var(--slate) 84%, var(--ink-2) 100%);
+  }
+}
+
+.where { display: block; margin-top: 2px; font-size: 0.85rem; opacity: 0.75; }
+@media (max-width: 767px) { .where { display: inline; margin-left: 8px; } .where::before { content: '· '; } }

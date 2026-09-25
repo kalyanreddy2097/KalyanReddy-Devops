@@ -7,17 +7,17 @@
 //   3. Set the frame ranges for each action (open the frames and note the numbers)
 // ─────────────────────────────────────────────────────────────
 export const HERO = {
-  totalFrames: 0,
+  totalFrames: 121,
   folder: 'hero-frames/',
   prefix: 'frame_',
   ext: '.webp',
   pad: 4,
   fps: 24,
   ranges: {
-    working: [1, 30],   // typing on the laptop (loops)
-    left: [31, 60],     // glances left
-    right: [61, 90],    // glances right
-    greeting: [91, 180] // looks at visitor, headset off, waves, points down
+    working: [1, 58],    // typing (plays forward and back, so the loop never jumps)
+    left: [85, 93],      // turns to look at the left side of the screen
+    right: [59, 71],     // turns to look at the right side of the screen
+    greeting: [109, 121] // looks up at the visitor
   },
   holdMs: 2500 // how long left/right reactions hold before returning to work
 }

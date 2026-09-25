@@ -24,7 +24,12 @@ function createFramePlayer(canvas) {
   }
   const { ranges, fps } = HERO
   let current = 'working'
-  let seq = { from: ranges.working[0], to: ranges.working[1], loop: true }
+  let seq = { from: ranges.working[0], to: ranges.working[1], pingpong: true }
+  // snapshot of the previous frame, faded out over a few frames on every state change
+  const fade = document.createElement('canvas')
+  const fctx = fade.getContext('2d')
+  let fadeLeft = 0
+  const FADE_FRAMES = 6
   let frame = seq.from
   let last = 0
   let raf
@@ -36,7 +41,22 @@ function createFramePlayer(canvas) {
       canvas.width = img.naturalWidth
       canvas.height = img.naturalHeight
     }
+    ctx.globalAlpha = 1
     ctx.drawImage(img, 0, 0)
+    if (fadeLeft > 0) {
+      ctx.globalAlpha = fadeLeft / FADE_FRAMES
+      ctx.drawImage(fade, 0, 0)
+      ctx.globalAlpha = 1
+      fadeLeft--
+    }
+  }
+
+  const snapshot = () => {
+    if (!canvas.width) return
+    fade.width = canvas.width
+    fade.height = canvas.height
+    fctx.drawImage(canvas, 0, 0)
+    fadeLeft = FADE_FRAMES
   }
 
   const tick = (t) => {
@@ -44,10 +64,14 @@ function createFramePlayer(canvas) {
       last = t
       draw(frame)
       if (frame !== seq.to) frame += seq.to > frame ? 1 : -1
-      else if (seq.loop) frame = seq.from
+      else if (seq.pingpong) {
+        seq = { from: seq.to, to: seq.from, pingpong: true }
+        frame += seq.to > frame ? 1 : -1
+      }
       else if (seq.then === 'working') {
+        snapshot()
         current = 'working'
-        seq = { from: ranges.working[0], to: ranges.working[1], loop: true }
+        seq = { from: ranges.working[0], to: ranges.working[1], pingpong: true }
         frame = seq.from
       }
     }
@@ -62,12 +86,14 @@ function createFramePlayer(canvas) {
         if (current === 'left' || current === 'right') {
           seq = { from: frame, to: ranges[current][0], then: 'working' }
         } else {
-          seq = { from: ranges.working[0], to: ranges.working[1], loop: true }
+          snapshot()
+          seq = { from: ranges.working[0], to: ranges.working[1], pingpong: true }
           frame = seq.from
           current = 'working'
         }
         return
       }
+      snapshot()
       const r = ranges[state]
       seq = { from: r[0], to: r[1] } // plays once and holds on the last frame
       frame = r[0]
@@ -191,7 +217,7 @@ export default function Hero() {
         </p>
       </div>
 
-      <div className="stage" ref={stageRef} data-state="working">
+      <div className={`stage${useFrames ? ' has-frames' : ''}`} ref={stageRef} data-state="working">
         <div className="glow" aria-hidden="true" />
         {useFrames
           ? <canvas ref={canvasRef} className="frames" aria-label="Animated portrait of Kalyan at his laptop" />
