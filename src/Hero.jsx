@@ -199,7 +199,7 @@ export default function Hero() {
   return (
     <header className="hero" ref={heroRef}>
       <nav className="nav">
-        <a className="brand" href="#top">kalyan.reddy</a>
+        <a className="brand" href="#top">Kalyan Reddy</a>
         <div className="nav-links">
           <a href="#work">Work</a>
           <a href="#experience">Experience</a>
